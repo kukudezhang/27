@@ -1,95 +1,973 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>郑傻逼</title>
-    <style>
-      * {
-        padding: 0;
-        margin: 0;
-      }
-      body {
-        background-color: pink;
-        width: 100%;
-        height: 100vh;
-        position: relative;
-      }
-      #frame {
-        position: relative;
-        width: 400px;
-        height: 300px;
-        margin: 250px auto;
-      }
-      .left,
-      .right {
-        top: 0;
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-      }
-      .left {
-        left: 35px;
-      }
-      .right {
-        right: 35px;
-        z-index: -1;
-      }
-      .bottom {
-        bottom: 36px;
-        left: 100px;
-        width: 200px;
-        height: 200px;
-        transform: rotate(45deg);
-        z-index: -1;
-      }
-      .heart {
-        position: absolute;
-        box-shadow: 0 0 40px #d5093c;
-        animation: beat 0.8s ease infinite normal;
-        background: linear-gradient(-90deg, #f50a45 0%, #d5093c 40%);
-      }
-      @keyframes beat {
-        0% {
-          transform: scale(1) rotate(225deg);
-          box-shadow: 0 0 40px #d5093c;
-        }
-        50% {
-          transform: scale(1.1) rotate(225deg);
-          box-shadow: 0 0 70px #d5093c;
-        }
-        100% {
-          transform: scale(1) rotate(225deg);
-          box-shadow: 0 0 40px #d5093c;
-        }
-      }
-      #btn {
-        font-size: 50px;
-        color: #fff;
-        font-weight: bold;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-    </style>
-  </head>
-  <body>
-    <div
-      id="frame"
-      style="display: none">
-      <div class="heart left"></div>
-      <div class="heart right"></div>
-      <div class="heart bottom"></div>
-    </div>
-    <div id="btn">郑傻逼</div>
-  </body>
-  <script>
-    const btn = document.getElementById('btn')
-    btn.onclick = function () {
-      const frame = document.getElementById('frame')
-      frame.style.display = 'block'
-      btn.style.display = 'none'
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>借款申请表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ed;
+    --surface: #ffffff;
+    --primary: #1a2744;
+    --primary-light: #2a3d5f;
+    --accent: #c9a84c;
+    --accent-light: #e8d48b;
+    --text: #1a1a1a;
+    --text-muted: #6b6560;
+    --border: #d8d2c8;
+    --border-focus: #c9a84c;
+    --error: #c0392b;
+    --success: #27ae60;
+    --shadow: 0 2px 20px rgba(26, 39, 68, 0.08);
+    --shadow-lg: 0 8px 40px rgba(26, 39, 68, 0.12);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 20px;
+    line-height: 1.6;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 20%, rgba(201, 168, 76, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 80%, rgba(26, 39, 68, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeDown 0.6s ease forwards;
+  }
+
+  .header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: var(--primary);
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(26, 39, 68, 0.2);
+  }
+
+  .header-icon svg {
+    width: 32px;
+    height: 32px;
+    fill: var(--accent);
+  }
+
+  .header h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+  }
+
+  .header .subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+  }
+
+  .header .divider {
+    width: 60px;
+    height: 3px;
+    background: var(--accent);
+    margin: 16px auto 0;
+    border-radius: 2px;
+  }
+
+  /* Application number */
+  .app-number {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    padding: 0 4px;
+    animation: fadeUp 0.6s ease forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+  }
+
+  .app-number span:last-child {
+    font-family: monospace;
+    letter-spacing: 1px;
+  }
+
+  /* Form card */
+  .form-card {
+    background: var(--surface);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    animation: fadeUp 0.6s ease forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
+  }
+
+  /* Section */
+  .section {
+    padding: 32px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section:last-child {
+    border-bottom: none;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    color: var(--accent);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px;
+  }
+
+  .section-title h2 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary);
+    letter-spacing: 1px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+    margin-left: 12px;
+  }
+
+  /* Form grid */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 28px;
+  }
+
+  .form-grid .full-width {
+    grid-column: 1 / -1;
+  }
+
+  /* Form group */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+
+  .form-group label .required {
+    color: var(--accent);
+    margin-left: 2px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 15px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: #faf9f7;
+    color: var(--text);
+    outline: none;
+    transition: all 0.25s ease;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: #b5b0a8;
+    font-size: 13px;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+    background: #fffef8;
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%236b6560'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+
+  /* Amount display */
+  .amount-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .amount-display .currency {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .amount-display input {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 1px;
+  }
+
+  /* Radio group */
+  .radio-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .radio-option {
+    position: relative;
+  }
+
+  .radio-option input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .radio-option label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: #faf9f7;
+  }
+
+  .radio-option label:hover {
+    border-color: var(--accent-light);
+  }
+
+  .radio-option input:checked + label {
+    border-color: var(--accent);
+    background: #fdf8e8;
+    color: var(--primary);
+    font-weight: 500;
+  }
+
+  .radio-option input:checked + label::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  /* Guarantee table */
+  .guarantee-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 14px;
+  }
+
+  .guarantee-table th {
+    background: var(--primary);
+    color: var(--accent-light);
+    font-weight: 500;
+    padding: 12px 16px;
+    text-align: left;
+    letter-spacing: 1px;
+    font-size: 13px;
+  }
+
+  .guarantee-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: #faf9f7;
+  }
+
+  .guarantee-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .guarantee-table td input,
+  .guarantee-table td select {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 14px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fff;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.25s;
+  }
+
+  .guarantee-table td input:focus,
+  .guarantee-table td select:focus {
+    border-color: var(--accent);
+  }
+
+  /* Checkbox / Agreement */
+  .agreement {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 20px 24px;
+    background: #faf9f7;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .agreement input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 2px;
+    position: relative;
+  }
+
+  .agreement input[type="checkbox"]:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .agreement input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .agreement p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .agreement p a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .agreement p a:hover {
+    text-decoration: underline;
+  }
+
+  /* Signature area */
+  .signature-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .signature-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .signature-box label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  .signature-box .sign-area {
+    height: 100px;
+    border: 1.5px dashed var(--border);
+    border-radius: 10px;
+    background: #faf9f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #c5c0b8;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .signature-box .sign-area:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: #fdfdf6;
+  }
+
+  .signature-box .date-input {
+    text-align: center;
+    font-family: 'Noto Serif SC', serif;
+    letter-spacing: 1px;
+  }
+
+  /* Actions */
+  .actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    padding: 32px 40px;
+    background: #f9f7f3;
+  }
+
+  .btn {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 13px 40px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: var(--accent);
+    box-shadow: 0 4px 16px rgba(26, 39, 68, 0.25);
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(26, 39, 68, 0.3);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1.5px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(26, 39, 68, 0.03);
+  }
+
+  /* Footer note */
+  .footer-note {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 12px;
+    color: #b5b0a8;
+    letter-spacing: 0.5px;
+    animation: fadeUp 0.6s ease forwards;
+    animation-delay: 0.4s;
+    opacity: 0;
+  }
+
+  /* Print styles */
+  @media print {
+    body {
+      background: white;
+      padding: 20px;
     }
-  </script>
+    body::before { display: none; }
+    .actions, .footer-note { display: none; }
+    .form-card { box-shadow: none; border: 1px solid #ddd; }
+    .section { break-inside: avoid; }
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .signature-area { grid-template-columns: 1fr; }
+    .section { padding: 24px 20px; }
+    .header h1 { font-size: 24px; }
+    .amount-display input { font-size: 20px; }
+    .actions { flex-direction: column; }
+    .btn { width: 100%; }
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-1H8v-2h3v-1H8v-2h3V10H8V8h3V7h2v1h3v2h-3v1h3v2h-3v1h3v2h-3v1z"/></svg>
+    </div>
+    <h1>借 款 申 请 表</h1>
+    <p class="subtitle">LOAN APPLICATION FORM</p>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Application number -->
+  <div class="app-number">
+    <span>申请编号：<strong>JK-2025-0512-0001</strong></span>
+    <span>申请日期：2025年05月12日</span>
+  </div>
+
+  <!-- Form -->
+  <div class="form-card">
+
+    <!-- Section 1: Personal Info -->
+    <div class="section">
+      <div class="section-title">
+        <span class="section-number">1</span>
+        <h2>申请人基本信息</h2>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>姓名 <span class="required">*</span></label>
+          <input type="text" placeholder="请输入真实姓名">
+        </div>
+        <div class="form-group">
+          <label>身份证号 <span class="required">*</span></label>
+          <input type="text" placeholder="请输入18位身份证号" maxlength="18">
+        </div>
+        <div class="form-group">
+          <label>手机号码 <span class="required">*</span></label>
+          <input type="tel" placeholder="请输入常用手机号" maxlength="11">
+        </div>
+        <div class="form-group">
+          <label>电子邮箱</label>
+          <input type="email" placeholder="请输入电子邮箱">
+        </div>
+        <div class="form-group">
+          <label>婚姻状况</label>
+          <select>
+            <option value="">请选择</option>
+            <option>未婚</option>
+            <option>已婚</option>
+            <option>离异</option>
+            <option>丧偶</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>最高学历</label>
+          <select>
+            <option value="">请选择</option>
+            <option>高中及以下</option>
+            <option>大专</option>
+            <option>本科</option>
+            <option>硕士</option>
+            <option>博士</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <label>户籍地址 <span class="required">*</span></label>
+          <input type="text" placeholder="请输入户籍所在地详细地址">
+        </div>
+        <div class="form-group full-width">
+          <label>现居住地址 <span class="required">*</span></label>
+          <input type="text" placeholder="请输入当前居住地详细地址">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Loan Details -->
+    <div class="section">
+      <div class="section-title">
+        <span class="section-number">2</span>
+        <h2>借款信息</h2>
+      </div>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>借款金额 <span class="required">*</span></label>
+          <div class="amount-display">
+            <span class="currency">¥</span>
+            <input type="text" placeholder="0.00">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>借款期限 <span class="required">*</span></label>
+          <select>
+            <option value="">请选择</option>
+            <option>3个月</option>
+            <option>6个月</option>
+            <option>12个月</option>
+            <option>24个月</option>
+            <option>36个月</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>还款方式 <span class="required">*</span></label>
+          <select>
+            <option value="">请选择</option>
+            <option>等额本息</option>
+            <option>等额本金</option>
+            <option>先息后本</option>
+            <option>到期一次性还本付息</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <label>借款用途 <span class="required">*</span></label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="purpose" id="p1" value="消费">
+              <label for="p1">个人消费</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="purpose" id="p2" value="装修">
+              <label for="p2">房屋装修</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="purpose" id="p3" value="教育">
+              <label for="p3">教育培训</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="purpose" id="p4" value="医疗">
+              <label for="p4">医疗健康</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="purpose" id="p5" value="经营">
+              <label for="p5">生意周转</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="purpose" id="p6" value="其他">
+              <label for="p6">其他</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group full-width">
+          <label>用途说明</label>
+          <textarea placeholder="请简要描述借款具体用途（选填）"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Employment Info -->
+    <div class="section">
+      <div class="section-title">
+        <span class="section-number">3</span>
+        <h2>职业及收入信息</h2>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>职业类型 <span class="required">*</span></label>
+          <select>
+            <option value="">请选择</option>
+            <option>企业员工</option>
+            <option>公务员/事业单位</option>
+            <option>个体工商户</option>
+            <option>自由职业</option>
+            <option>退休人员</option>
+            <option>其他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>工作年限</label>
+          <select>
+            <option value="">请选择</option>
+            <option>1年以下</option>
+            <option>1-3年</option>
+            <option>3-5年</option>
+            <option>5-10年</option>
+            <option>10年以上</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>单位名称 <span class="required">*</span></label>
+          <input type="text" placeholder="请输入工作单位全称">
+        </div>
+        <div class="form-group">
+          <label>单位电话</label>
+          <input type="tel" placeholder="请输入单位座机号码">
+        </div>
+        <div class="form-group full-width">
+          <label>单位地址</label>
+          <input type="text" placeholder="请输入单位详细地址">
+        </div>
+        <div class="form-group">
+          <label>月收入（税后）<span class="required">*</span></label>
+          <select>
+            <option value="">请选择</option>
+            <option>3000元以下</option>
+            <option>3000-5000元</option>
+            <option>5000-10000元</option>
+            <option>10000-20000元</option>
+            <option>20000-50000元</option>
+            <option>50000元以上</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>其他月收入来源</label>
+          <input type="text" placeholder="如租金、投资收益等（选填）">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Guarantee -->
+    <div class="section">
+      <div class="section-title">
+        <span class="section-number">4</span>
+        <h2>担保信息</h2>
+      </div>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>担保方式</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="guarantee" id="g1" value="信用">
+              <label for="g1">信用担保</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="guarantee" id="g2" value="抵押">
+              <label for="g2">抵押担保</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="guarantee" id="g3" value="质押">
+              <label for="g3">质押担保</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="guarantee" id="g4" value="保证">
+              <label for="g4">保证人担保</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Guarantor table -->
+      <div style="margin-top: 20px;">
+        <table class="guarantee-table">
+          <thead>
+            <tr>
+              <th style="width: 20%;">担保人姓名</th>
+              <th style="width: 22%;">身份证号</th>
+              <th style="width: 18%;">联系电话</th>
+              <th style="width: 18%;">与申请人关系</th>
+              <th style="width: 22%;">担保人工作单位</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" placeholder="姓名"></td>
+              <td><input type="text" placeholder="身份证号"></td>
+              <td><input type="tel" placeholder="手机号"></td>
+              <td><input type="text" placeholder="如：朋友"></td>
+              <td><input type="text" placeholder="单位名称"></td>
+            </tr>
+            <tr>
+              <td><input type="text" placeholder="姓名"></td>
+              <td><input type="text" placeholder="身份证号"></td>
+              <td><input type="tel" placeholder="手机号"></td>
+              <td><input type="text" placeholder="如：亲属"></td>
+              <td><input type="text" placeholder="单位名称"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 5: Emergency contact -->
+    <div class="section">
+      <div class="section-title">
+        <span class="section-number">5</span>
+        <h2>紧急联系人</h2>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>联系人姓名 <span class="required">*</span></label>
+          <input type="text" placeholder="请输入紧急联系人姓名">
+        </div>
+        <div class="form-group">
+          <label>与申请人关系 <span class="required">*</span></label>
+          <select>
+            <option value="">请选择</option>
+            <option>父母</option>
+            <option>配偶</option>
+            <option>兄弟姐妹</option>
+            <option>朋友</option>
+            <option>同事</option>
+            <option>其他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>联系电话 <span class="required">*</span></label>
+          <input type="tel" placeholder="请输入联系人手机号" maxlength="11">
+        </div>
+        <div class="form-group">
+          <label>工作单位</label>
+          <input type="text" placeholder="选填">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 6: Assets & Liabilities -->
+    <div class="section">
+      <div class="section-title">
+        <span class="section-number">6</span>
+        <h2>资产负债情况</h2>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>房产情况</label>
+          <select>
+            <option value="">请选择</option>
+            <option>无房产</option>
+            <option>有房产（无贷款）</option>
+            <option>有房产（有贷款）</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>车辆情况</label>
+          <select>
+            <option value="">请选择</option>
+            <option>无车辆</option>
+            <option>有车辆（无贷款）</option>
+            <option>有车辆（有贷款）</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>现有贷款总额</label>
+          <input type="text" placeholder="请输入当前所有贷款余额（元）">
+        </div>
+        <div class="form-group">
+          <label>每月还款总额</label>
+          <input type="text" placeholder="请输入每月需还贷款总额（元）">
+        </div>
+        <div class="form-group full-width">
+          <label>信用卡使用情况</label>
+          <input type="text" placeholder="如：持有3张信用卡，总额度10万元，已用5万元">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 7: Agreement & Signature -->
+    <div class="section">
+      <div class="section-title">
+        <span class="section-number">7</span>
+        <h2>声明与签字</h2>
+      </div>
+
+      <div class="agreement">
+        <input type="checkbox" id="agree">
+        <p>
+          本人郑重声明：以上所填写内容均真实、完整、有效。本人同意贵机构向有关方面调查核实
+          本表所填内容，并授权相关机构向贵机构提供本人的信用报告及相关信息。如提供虚假信息，
+          本人愿承担由此产生的一切法律责任和经济损失。
+          <br>
+          本人已阅读并同意 <a href="#">《借款协议》</a>、<a href="#">《个人信息授权书》</a> 及
+          <a href="#">《征信授权书》</a> 的全部条款。
+        </p>
+      </div>
+
+      <div class="signature-area" style="margin-top: 28px;">
+        <div class="signature-box">
+          <label>申请人签字</label>
+          <div class="sign-area">点击此处签名</div>
+        </div>
+        <div class="signature-box">
+          <label>签字日期</label>
+          <input type="date" class="date-input" style="
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 15px;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background: #faf9f7;
+            color: var(--text);
+            outline: none;
+            text-align: center;
+            cursor: pointer;
+          ">
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="btn btn-secondary">暂存草稿</button>
+      <button class="btn btn-primary">提交申请</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <p class="footer-note">
+    本表所填信息仅用于借款审批，我们将严格保护您的个人隐私 &nbsp;·&nbsp; 咨询电话：400-XXX-XXXX
+  </p>
+</div>
+
+</body>
 </html>
